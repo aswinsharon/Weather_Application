@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- font links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Rubik:wght@300&display=swap" rel="stylesheet">
+     
+     <!---icon link --->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <title>{{title}}</title>
+</head>
+<body>
+       <div class="weather-app">
+        <div class="container">
+            <h3 class="brand"> the weather</h3>
+          <div>
+            <h1 class="temp">16&#176;</h1>
+            <div class="city-time">
+                <h1 class="name">London</h1>
+                <small>
+                    <span class="date">06:09</span>
+                </small>
+            </div>
+            <div class="weather">
+                <i class="fas fa-cloud-sun"></i>
+                <span class="condition"></span>
+            </div>
+       </div>
+       </div>
+       <div class="panel">
+        <form action = "/" id ="location-input" method="post">
+            <input type="text" class="search" name="cityName" placeholder="Search location">
+            <button type="submit" class="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+        <ul class="cities">
+          <li class="city">New York</li>
+          <li class="city">California</li>
+          <li class="city">Paris</li>
+          <li class="city">Tokyo</li>
+         </ul>
+
+         <ul class="details">
+            <h4>Weather Details</h4>
+            <li>
+                 <span>
+                    Description
+                 </span>
+                 <span class="description">Rainy</span>
+            </li>
+            <li>
+                <span>
+                    Cloudy
+                </span>
+                <span class="cloud">89%</span>
+            </li>
+            <li>
+                <span>
+                    Humidity
+                </span>
+                <span class="Humidity">69%</span>
+            </li>
+            <li>
+                <span>
+                    Wind
+                </span>
+                <span class="wind">8km/hr</span>
+            </li>
+         </ul>
+        </div>
+       </div>
+       <script src="js/app.js"></script>
+</body>
+</html>
