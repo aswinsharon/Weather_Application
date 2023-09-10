@@ -1,3 +1,8 @@
+# package directories
+node_modules
+jspm_packages
+# Serverless directories
+.serverless
+
 package-lock.json
 .DS_Store
-node_modules
