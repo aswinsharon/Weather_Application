@@ -1,11 +1,12 @@
 const express = require("express");
-const https = require("https");
-const hbs = require("hbs");
+// const https = require("https");
+const hbs = require("hbs"); 
 const path = require("path");
-const mongoose = require("mongoose")
+const manageDatabase = require('./manageDatabase');
 const { response } = require("express");
-const app = express();
 
+const app = express();
+const Database = new manageDatabase();
 const weatherData = require(__dirname+"/weatherData");
 
 const PORT = 3000;
@@ -21,20 +22,7 @@ app.set("view engine","hbs");
 app.set("views",viewsPath);
 hbs.registerPartials(partialPath);
 
-mongoose.connect("mongodb://127.0.0.1:27017/weatherDB");
-
-const schema = {
-    temperature:Number,
-    humidity:Number,
-    city:String,            //creating schema
-    clouds:Number,
-    wind:Number,
-    time:Number,
-    description:String
-}
-const Weather = mongoose.model("Weather",schema);
-
-app.get("/",(req,res)=>{
+app.get("/",async (req,res)=>{
 
     res.render('index',{
 
@@ -42,7 +30,7 @@ app.get("/",(req,res)=>{
     });
 })
 
-app.get("/weather",(req,res)=>{
+app.get("/weather", (req,res)=>{
     
     const address = req.query.address;
     
@@ -53,8 +41,10 @@ app.get("/weather",(req,res)=>{
             error:"Address field is empty"
         });
     }
-    weatherData(address,(error,{temperature,humidity,city,clouds,wind,timezone,description})=>{
-        
+  weatherData(address, async (error,{temperature,humidity,city,clouds,wind,timezone,description})=>{
+    
+       await Database.establishConnection();
+       try{
         if(error){
             
            return res.send({
@@ -70,24 +60,24 @@ app.get("/weather",(req,res)=>{
             timezone,
             description,
         })
-        var data = new Weather({
-            temperature:temperature,
-            humidity:humidity,
-            city:city,
-            clouds:clouds,               
-            wind:wind,
-            time:timezone,
-            description:description
-        })
-        Weather.insertMany(data,function(err){
-    
-            if(err){
-                console.log(err);                                  //inserting data to database
-            }else{
-                console.log("data has been inserted to db");
-            }
-        })
+        var data = {
+            'temperature':temperature,
+            'humidity':humidity,
+            'city':city,
+            'clouds':clouds,               
+            'wind':wind,
+            'time':timezone,
+            'description':description
+        }
+       
+        await Database.insertIntoDatabase(data);
+
+    } catch(error){
+        console.log(error);
+    }
+
     })
+
 
 });
 
@@ -103,3 +93,4 @@ app.listen(PORT, () =>{
     console.log(`Listening on port ${PORT}`)
 });
 
+module.exports = app;

@@ -1,0 +1,25 @@
+
+
+service: project1
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  memorySize: 2048
+  runtime: nodejs12.x
+  stage: dev
+  timeout: 15
+  region: us-east-1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+     - http: ANY /{proxy+}
+     - http: ANY /
